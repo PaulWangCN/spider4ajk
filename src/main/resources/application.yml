@@ -1,2 +1,12 @@
-spider:
-  timer: 10
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/w?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: wjx123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# mybatis
+mybatis:
+  # \u5B9E\u4F53\u7C7B\u62A5\u540D
+  type-aliases-package: com.wangjx.spider4ajk.model
+  mapper-locations: classpath:**/mapper/*.xml
