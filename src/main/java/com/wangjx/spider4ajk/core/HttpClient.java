@@ -5,6 +5,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
@@ -22,9 +23,10 @@ public class HttpClient {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    public String get(String url) throws InterruptedException {
+    public String get(String url, Integer time) throws InterruptedException {
         //随机时间执行  防止太频繁被防爬虫屏蔽
-        int time = (int)(Math.random() * 5 + 2);
+        if (time == null)
+            time = (int)(Math.random() * 5 + 2);
         Thread.sleep(time * 1000);
         //headers
         HttpHeaders requestHeaders = new HttpHeaders();
@@ -42,7 +44,12 @@ public class HttpClient {
         HttpEntity<MultiValueMap> requestEntity = new HttpEntity<>(null, requestHeaders);
         //post
         log.info("休息{}秒后准备访问URL：{}", time, url);
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
+        } catch (HttpClientErrorException e) {
+            return null;
+        }
         return responseEntity.getBody();
     }
 

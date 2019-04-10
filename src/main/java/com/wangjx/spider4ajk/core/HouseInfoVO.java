@@ -21,5 +21,9 @@ public class HouseInfoVO {
     private String address;//小区地址
     private Double sumPrice;//总价
     private Double perPrice;//单价
+    private String fitment;//装潢程度
+    private String twoYears;//是否满两年
+    private String hasElevator;//是否有电梯
+    private Double firstMoney;//参考首付
 
 }

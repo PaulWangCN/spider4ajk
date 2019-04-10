@@ -7,15 +7,19 @@ CREATE TABLE `NewTable` (
 `build_time`  varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
 `village`  varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
 `address`  varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+`fitment`  varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
 `sum_price`  decimal(10,2) NULL DEFAULT NULL ,
 `per_price`  decimal(10,2) NULL DEFAULT NULL ,
+`two_years`  varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+`has_elevator`  varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+`first_money`  decimal(10,2) NULL DEFAULT NULL ,
 `create_time`  datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP ,
 `batch_no`  bigint(18) NULL DEFAULT NULL ,
 PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci
-AUTO_INCREMENT=1115890524036591619
+AUTO_INCREMENT=1115920763554963458
 ROW_FORMAT=DYNAMIC
 ;
 
