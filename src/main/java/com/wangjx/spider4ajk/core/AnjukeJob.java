@@ -81,7 +81,6 @@ public class AnjukeJob extends QuartzJobBean {
             houseInfoVO.setFitment(items.get(11).selectFirst(".houseInfo-content").text());//装修程度
             houseInfoVO.setTwoYears(items.get(14).selectFirst(".houseInfo-content").text());//是否满两年
             houseInfoVO.setHasElevator(items.get(13).selectFirst(".houseInfo-content").text());//是否有电梯
-            log.info("items:{}", items);
             String firstMoney = items.get(5).selectFirst(".houseInfo-content").text();
             houseInfoVO.setFirstMoney(new Double(firstMoney.replaceAll( "[^\\d.]", "" )));//首付
 
