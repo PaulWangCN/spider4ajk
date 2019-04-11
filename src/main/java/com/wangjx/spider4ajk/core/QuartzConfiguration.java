@@ -23,9 +23,8 @@ public class QuartzConfiguration {
 
     @Bean
     public Trigger anjukeQuartzTrigger() {
-        int time = (int)(Math.random() * 480 + 300);
-        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(time)
+        //12小时执行一次
+        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(12)
                 .repeatForever();
         return TriggerBuilder.newTrigger().forJob(anjukeQuartz())
                 .withIdentity("anjukeJob")

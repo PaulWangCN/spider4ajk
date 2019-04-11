@@ -76,11 +76,13 @@ public class AnjukeJob extends QuartzJobBean {
             if (detailHtml == null)
                 continue;
             Document detailDoc = Jsoup.parse(detailHtml);
+            if (detailDoc.selectFirst(".houseInfo-wrap") == null)
+                continue;
             Elements items = detailDoc.selectFirst(".houseInfo-wrap").select("li");
             houseInfoVO.setLayout(items.get(1).selectFirst(".houseInfo-content").text());//户型
-            houseInfoVO.setFitment(items.get(11).selectFirst(".houseInfo-content").text());//装修程度
-            houseInfoVO.setTwoYears(items.get(14).selectFirst(".houseInfo-content").text());//是否满两年
-            houseInfoVO.setHasElevator(items.get(13).selectFirst(".houseInfo-content").text());//是否有电梯
+            houseInfoVO.setFitment(items.size() < 11 ? "" : items.get(11).selectFirst(".houseInfo-content").text());//装修程度
+            houseInfoVO.setTwoYears(items.size() < 14 ? "" : items.get(14).selectFirst(".houseInfo-content").text());//是否满两年
+            houseInfoVO.setHasElevator(items.size() < 13 ? "" : items.get(13).selectFirst(".houseInfo-content").text());//是否有电梯
             String firstMoney = items.get(5).selectFirst(".houseInfo-content").text();
             houseInfoVO.setFirstMoney(new Double(firstMoney.replaceAll( "[^\\d.]", "" )));//首付
 
