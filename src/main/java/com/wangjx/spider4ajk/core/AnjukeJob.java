@@ -72,6 +72,8 @@ public class AnjukeJob extends QuartzJobBean {
             houseInfoVO.setTitle(houseDetails.select(".house-title").text());
             //跳转到明细页获取更多信息
             String detailUrl = houseDetails.selectFirst(".house-title").selectFirst("a").absUrl("href");
+            houseInfoVO.setDetailUrl(detailUrl);
+            houseInfoVO.setAjkId(detailUrl.substring(detailUrl.indexOf("/view/") + 6, detailUrl.indexOf("?")));
             String detailHtml = httpClient.get(detailUrl, 1);
             if (detailHtml == null)
                 continue;
@@ -80,6 +82,8 @@ public class AnjukeJob extends QuartzJobBean {
                 continue;
             Elements items = detailDoc.selectFirst(".houseInfo-wrap").select("li");
             houseInfoVO.setLayout(items.get(1).selectFirst(".houseInfo-content").text());//户型
+            if (houseInfoVO.getAjkId().indexOf("E") == 0)
+                break;
             houseInfoVO.setFitment(items.size() < 11 ? "" : items.get(11).selectFirst(".houseInfo-content").text());//装修程度
             houseInfoVO.setTwoYears(items.size() < 14 ? "" : items.get(14).selectFirst(".houseInfo-content").text());//是否满两年
             houseInfoVO.setHasElevator(items.size() < 13 ? "" : items.get(13).selectFirst(".houseInfo-content").text());//是否有电梯

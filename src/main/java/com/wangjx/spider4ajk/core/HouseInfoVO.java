@@ -25,5 +25,6 @@ public class HouseInfoVO {
     private String twoYears;//是否满两年
     private String hasElevator;//是否有电梯
     private Double firstMoney;//参考首付
-
+    private String ajkId;//安居客的id
+    private String detailUrl;//明细页url
 }

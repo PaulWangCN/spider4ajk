@@ -1,5 +1,7 @@
 CREATE TABLE `NewTable` (
 `id`  bigint(18) NOT NULL AUTO_INCREMENT ,
+`ajk_id`  varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
+`detail_url`  varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
 `title`  varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
 `layout`  varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
 `area`  decimal(10,2) NULL DEFAULT NULL ,
@@ -19,7 +21,7 @@ PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci
-AUTO_INCREMENT=1115920763554963458
+AUTO_INCREMENT=1116591243408523267
 ROW_FORMAT=DYNAMIC
 ;
 
