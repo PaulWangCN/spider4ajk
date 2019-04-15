@@ -1,5 +1,7 @@
 package com.wangjx.spider4ajk.core;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wangjx.spider4ajk.dao.THouseInfoMapper;
 import com.wangjx.spider4ajk.model.THouseInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -161,8 +163,13 @@ public class AnjukeJob extends QuartzJobBean {
             BeanUtils.copyProperties(houseInfoVO, tHouseInfo);
             tHouseInfo.setCreateTime(new Timestamp(System.currentTimeMillis()));
             tHouseInfo.setBatchNo(batchNo);
-            tHouseInfoMapper.insert(tHouseInfo);
-            log.info("保存成功: {}", tHouseInfo);
+            //检查ajkId + batchNo是否数据库存在，存在视为重复不插入
+            QueryWrapper<THouseInfo> wrapper = new QueryWrapper();
+            wrapper.eq("ajk_id", tHouseInfo.getAjkId()).eq("batch_no", tHouseInfo.getBatchNo());
+            if (tHouseInfoMapper.selectOne(wrapper) == null) {
+                tHouseInfoMapper.insert(tHouseInfo);
+                log.info("保存成功: {}", tHouseInfo);
+            }
         }
     }
 }
