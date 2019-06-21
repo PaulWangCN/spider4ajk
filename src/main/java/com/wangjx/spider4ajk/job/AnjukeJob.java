@@ -1,7 +1,9 @@
-package com.wangjx.spider4ajk.core;
+package com.wangjx.spider4ajk.job;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wangjx.spider4ajk.bean.HouseInfoVO;
+import com.wangjx.spider4ajk.core.HttpClient;
+import com.wangjx.spider4ajk.common.IdGenerator;
 import com.wangjx.spider4ajk.dao.THouseInfoMapper;
 import com.wangjx.spider4ajk.model.THouseInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +15,6 @@ import org.quartz.JobExecutionContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -21,7 +22,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @ClassName Worker
- * @Description TODO
+ * @Description 安居客定时任务
  * @Author Wangjx
  * @Date 2019/4/9 17:19
  * @Version 1.0
@@ -75,6 +76,12 @@ public class AnjukeJob extends QuartzJobBean {
         }
     }
 
+    /**
+     * 从html中解析出VO对象
+     * @param saleLeft
+     * @return
+     * @throws Exception
+     */
     private List<HouseInfoVO> parseFromHtml(Element saleLeft) throws Exception {
         Elements elements = saleLeft.select("#houselist-mod-new").select("li");
         List<HouseInfoVO> list = new ArrayList<>();

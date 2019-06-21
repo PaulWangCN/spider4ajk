@@ -1,17 +1,16 @@
-package com.wangjx.spider4ajk.core;
+package com.wangjx.spider4ajk.bean;
 
 import lombok.Data;
 
 /**
  * @ClassName HouseInfoVO
- * @Description TODO
+ * @Description 页面转换成房屋信息VO
  * @Author Wangjx
  * @Date 2019/4/10 13:59
  * @Version 1.0
  **/
 @Data
 public class HouseInfoVO {
-
     private String title;//房源基本信息
     private String layout;//布局，如三室两厅
     private Double area;//面积

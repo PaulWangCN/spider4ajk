@@ -1,5 +1,6 @@
-package com.wangjx.spider4ajk.core;
+package com.wangjx.spider4ajk.configuration;
 
+import com.wangjx.spider4ajk.job.AnjukeJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @ClassName QuartzConfiguration
- * @Description TODO
+ * @Description quartz配置类
  * @Author Wangjx
  * @Date 2019/4/9 17:22
  * @Version 1.0
