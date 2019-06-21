@@ -1,6 +1,6 @@
 package com.wangjx.spider4ajk.core;
 
-import java.util.List;
+import com.wangjx.spider4ajk.handler.ISpiderHandler;
 
 /**
  * @author WangJiaxing

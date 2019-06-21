@@ -1,5 +1,7 @@
 package com.wangjx.spider4ajk.core;
 
+import com.wangjx.spider4ajk.handler.ISpiderHandler;
+
 import java.util.List;
 
 /**
