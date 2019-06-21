@@ -25,8 +25,9 @@ public class HttpClient {
 
     public String get(String url, Integer time) throws InterruptedException {
         //随机时间执行  防止太频繁被防爬虫屏蔽
-        if (time == null)
-            time = (int)(Math.random() * 5 + 2);
+        if (time == null) {
+            time = (int) (Math.random() * 5 + 2);
+        }
         Thread.sleep(time * 1000);
         //headers
         HttpHeaders requestHeaders = new HttpHeaders();

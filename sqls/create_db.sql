@@ -1,4 +1,4 @@
-CREATE TABLE `NewTable` (
+CREATE TABLE `t_house_info` (
 `id`  bigint(18) NOT NULL AUTO_INCREMENT ,
 `ajk_id`  varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,
 `detail_url`  varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL ,

@@ -46,8 +46,8 @@ public class AnjukeJob extends QuartzJobBean {
             seeds.put("https://shaoxing.anjuke.com/sale/zhujinh/a626-b514-p1/");
             clawing(seeds, usedSeeds, batchNo);
             log.info("本次爬虫结束，批次：{}", batchNo);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("AnjukeJob.executeInternal()", e);
         }
     }
 
@@ -58,14 +58,24 @@ public class AnjukeJob extends QuartzJobBean {
      * @param batchNo
      * @throws InterruptedException
      */
-    private void clawing(LinkedBlockingQueue<String> seeds, Set<String> usedSeeds, Long batchNo) throws InterruptedException {
+    private void clawing(LinkedBlockingQueue<String> seeds, Set<String> usedSeeds, Long batchNo) throws Exception {
         String url = seeds.poll();
         String tableHtml = httpClient.get(url, null);
-        if (tableHtml == null)
+        if (tableHtml == null) {
             return;
+        }
         Document document = Jsoup.parse(tableHtml);
         usedSeeds.add(url.replace("#filtersort", ""));
         Element saleLeft = document.selectFirst(".sale-left");
+        List<HouseInfoVO> list = parseFromHtml(saleLeft);
+        saveHouseInfo(list, batchNo);
+        handlePages(saleLeft, seeds, usedSeeds);
+        if (!seeds.isEmpty()) {
+            clawing(seeds, usedSeeds, batchNo);
+        }
+    }
+
+    private List<HouseInfoVO> parseFromHtml(Element saleLeft) throws Exception {
         Elements elements = saleLeft.select("#houselist-mod-new").select("li");
         List<HouseInfoVO> list = new ArrayList<>();
         for (Element element : elements) {
@@ -77,15 +87,18 @@ public class AnjukeJob extends QuartzJobBean {
             houseInfoVO.setDetailUrl(detailUrl);
             houseInfoVO.setAjkId(detailUrl.substring(detailUrl.indexOf("/view/") + 6, detailUrl.indexOf("?")));
             String detailHtml = httpClient.get(detailUrl, 1);
-            if (detailHtml == null)
+            if (detailHtml == null) {
                 continue;
+            }
             Document detailDoc = Jsoup.parse(detailHtml);
-            if (detailDoc.selectFirst(".houseInfo-wrap") == null)
+            if (detailDoc.selectFirst(".houseInfo-wrap") == null) {
                 continue;
+            }
             Elements items = detailDoc.selectFirst(".houseInfo-wrap").select("li");
             houseInfoVO.setLayout(items.get(1).selectFirst(".houseInfo-content").text());//户型
-            if (houseInfoVO.getAjkId().indexOf("E") == 0)
+            if (houseInfoVO.getAjkId().indexOf("E") == 0) {
                 break;
+            }
             houseInfoVO.setFitment(items.size() < 11 ? "" : items.get(11).selectFirst(".houseInfo-content").text());//装修程度
             houseInfoVO.setTwoYears(items.size() < 14 ? "" : items.get(14).selectFirst(".houseInfo-content").text());//是否满两年
             houseInfoVO.setHasElevator(items.size() < 13 ? "" : items.get(13).selectFirst(".houseInfo-content").text());//是否有电梯
@@ -108,10 +121,7 @@ public class AnjukeJob extends QuartzJobBean {
             houseInfoVO.setPerPrice(new Double(unitPrice.replaceAll( "[^\\d.]", "" )));
             list.add(houseInfoVO);
         }
-        saveHouseInfo(list, batchNo);
-        handlePages(saleLeft, seeds, usedSeeds);
-        if (!seeds.isEmpty())
-            clawing(seeds, usedSeeds, batchNo);
+        return list;
     }
 
     /**
@@ -129,18 +139,19 @@ public class AnjukeJob extends QuartzJobBean {
                     String urlInPage = page.absUrl("href").replace("#filtersort", "");
 
                     boolean isExist = false;
-                    for (String urlInQueue : seeds)
+                    for (String urlInQueue : seeds) {
                         if (urlInQueue.equals(urlInPage)) {
                             isExist = true;
                             break;
                         }
-
+                    }
                     if (!isExist) {
-                        for (String urlInSet : usedSeeds)
+                        for (String urlInSet : usedSeeds) {
                             if (urlInSet.equals(urlInPage)) {
                                 isExist = true;
                                 break;
                             }
+                        }
                         if (!isExist) {
                             log.info("增加url: {}", urlInPage);
                             seeds.add(urlInPage);
