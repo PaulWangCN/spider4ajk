@@ -9,7 +9,7 @@ import java.util.List;
  * @Description 数据处理器管道接口
  * @createTime 2019年06月21日 11:47:00
  */
-public interface ISpiderPipeline<T> {
+public interface ISpiderPipeline {
 
     void addFirst(ISpiderHandler iSpiderHandler);
 
@@ -17,5 +17,5 @@ public interface ISpiderPipeline<T> {
 
     void remove(ISpiderHandler iSpiderHandler);
 
-    void invoke(T t);
+    void invoke();
 }

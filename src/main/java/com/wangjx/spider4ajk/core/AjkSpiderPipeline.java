@@ -21,7 +21,9 @@ public class AjkSpiderPipeline extends AbstractSpiderPipeline {
 
     @Override
     public void init() {
-        super.spiderHandlers = new ArrayList<>();
+        if (super.spiderHandlers == null) {
+            super.spiderHandlers = new ArrayList<>();
+        }
         spiderHandlers.add(simpleSaveHandler);
     }
 

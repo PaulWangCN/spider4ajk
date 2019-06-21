@@ -9,7 +9,7 @@ import java.util.List;
  * @Description 爬虫管道抽象类
  * @createTime 2019年06月21日 14:11:00
  */
-public abstract class AbstractSpiderPipeline<T> implements ISpiderPipeline<T> {
+public abstract class AbstractSpiderPipeline implements ISpiderPipeline {
 
     protected List<ISpiderHandler> spiderHandlers;
 
@@ -31,9 +31,12 @@ public abstract class AbstractSpiderPipeline<T> implements ISpiderPipeline<T> {
     }
 
     @Override
-    public void invoke(T t) {
+    public void invoke() {
+        if (spiderHandlers == null) {
+            init();
+        }
         for (ISpiderHandler handler : spiderHandlers) {
-            handler.handle(t);
+            handler.handle();
             if (!handler.goon()) {
                 break;
             }
